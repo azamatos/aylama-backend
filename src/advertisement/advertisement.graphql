@@ -1,0 +1,69 @@
+type Advertisement {
+  id: String!
+  h1: String!
+  description: String
+  from: City!
+  to: City!
+  price: Int!
+  status: Status!
+  isDeleted: Boolean!
+  startDate: String!
+  endDate: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type City {
+  id: String!
+  name: String!
+  country: Country!
+  created_at: String!
+  updated_at: String!
+}
+
+type Country {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type Status {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input AddAdvertisementInput {
+  h1: String!
+  description: String
+  fromCityId: String!
+  toCityId: String!
+  startDate: String!
+  endDate: String!
+  price: Int!
+}
+
+input UpdateAdvertisementInput {
+  id: String!
+  h1: String
+  description: String
+  fromCityId: String
+  toCityId: String
+  price: Int
+  startDate: String
+  endDate: String
+  statusId: String
+  isDeleted: Boolean
+}
+
+type Query {
+  getUserAdvertisements(token: String!): [Advertisement]
+  getAdvertisement(id: String!): Advertisement
+}
+
+type Mutation {
+  addAdvertisement(advertisementInput: AddAdvertisementInput): Advertisement
+  updateAdvertisement(advertisementInput: UpdateAdvertisementInput): Advertisement
+}

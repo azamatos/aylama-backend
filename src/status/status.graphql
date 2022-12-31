@@ -1,0 +1,54 @@
+type Status {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type StatusWithAdvertisements {
+  id: String!
+  name: String!
+  advertisements: [Advertisement]
+  created_at: String!
+  updated_at: String!
+}
+
+type Advertisement {
+  id: String!
+  h1: String!
+  description: String
+  from: City!
+  to: City!
+  startDate: String!
+  endDate: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type City {
+  id: String!
+  name: String!
+  country: Country!
+  created_at: String!
+  updated_at: String!
+}
+
+type Country {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input AddStatusInput {
+  name: String!
+}
+
+type Query {
+  getStatuses: [Status]
+  getStatusWithAdvertisements(id: Int!): StatusWithAdvertisements
+}
+
+type Mutation {
+  addStatus(addStatusInput: AddStatusInput): Status
+}

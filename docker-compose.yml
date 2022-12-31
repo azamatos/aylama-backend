@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    container_name: nest_api
+    env_file:
+      - .env
+    volumes:
+      - api-data:/usr/src/app
+    # Run in dev Mode: npm run start:dev
+    command: [ sh, -c, "npm run prisma:generate & npm run start:dev" ]
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    restart: 'always'
+    networks:
+      - prisma-network
+  mongo:
+    image: mongo:5.0
+    container_name: backend-db
+    ports:
+      - 27018:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    networks:
+      - prisma-network
+networks:
+  prisma-network:
+volumes:
+  api-data:
+  mongo-data:

@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  phone_number   String          @unique
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  advertisements Advertisement[]
+}
+
+model Advertisement {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  h1          String
+  description String?
+  from        City     @relation(name: "from", fields: [fromCityId], references: [id])
+  to          City     @relation(name: "to", fields: [toCityId], references: [id])
+  price       Int
+  status      Status   @relation(fields: [statusId], references: [id])
+  isDeleted   Boolean  @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  fromCityId  String   @db.ObjectId
+  toCityId    String   @db.ObjectId
+  statusId    String   @db.ObjectId
+  User        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
+}
+
+model City {
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  country            Country         @relation(fields: [countryId], references: [id])
+  countryId          String          @db.ObjectId
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+  advertisementsFrom Advertisement[] @relation(name: "from")
+  advertisementsTo   Advertisement[] @relation(name: "to")
+}
+
+model Country {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String   @unique
+  cities     City[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Status {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String          @unique
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  advertisements Advertisement[]
+}

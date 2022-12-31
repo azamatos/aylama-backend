@@ -1,0 +1,62 @@
+type City {
+  id: String!
+  name: String!
+  country: Country!
+  created_at: String!
+  updated_at: String!
+}
+
+type CityWithAdvertisements {
+  id: String!
+  name: String!
+  country: Country!
+  advertisementsFrom: [Advertisement]
+  advertisementsTo: [Advertisement]
+  created_at: String!
+  updated_at: String!
+}
+
+type Status {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type Advertisement {
+  id: String!
+  h1: String!
+  description: String
+  status: Status!
+  startDate: String!
+  endDate: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type Country {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input AddCityInput {
+  name: String!
+  countryId: String!
+}
+
+input CityWithAdvertisementsInput {
+  id: String!
+  from: Boolean!
+  to: Boolean!
+}
+
+type Query {
+  getCities(token: String!): [City]
+  getCitiesWithAdvertisements(cityWithAdvertisements: CityWithAdvertisementsInput): [CityWithAdvertisements]
+}
+
+type Mutation {
+  addCity(addCityInput: AddCityInput): City
+}

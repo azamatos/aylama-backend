@@ -1,0 +1,26 @@
+type Country {
+  id: String!
+  name: String!
+  cities: [City]
+  created_at: String!
+  updated_at: String!
+}
+
+type City {
+  id: String!
+  name: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input AddCountryInput {
+  name: String!
+}
+
+type Query {
+  getCountries(token: String!): [Country]
+}
+
+type Mutation {
+  addCountry(addCountryInput: AddCountryInput): Country
+}

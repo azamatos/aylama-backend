@@ -1,0 +1,28 @@
+type User {
+  id: String!
+  name: String
+  phone_number: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input UserInput {
+  name: String
+  phone_number: String!
+}
+
+input LoginInput {
+  phone_number: String!
+}
+
+type LoginResponse {
+  token: String!
+}
+
+type Query {
+  login(loginInput: LoginInput!): LoginResponse
+}
+
+type Mutation {
+  register(registerInput: UserInput!): User
+}
